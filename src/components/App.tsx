@@ -5,28 +5,18 @@
 import {
   h,
 } from 'preact';
-import {
-  Button,
-  Footer,
-  Header,
-  Title,
-} from 'preact-photon';
 
 export default () => (
   <div class="window">
-    <Header>
-      <Title>ShareText</Title>
-      <Button icon="home">Home</Button>
-    </Header>
-
-    <section>
-      Hello.
-    </section>
-
-    <Footer>
-      <span>
-        Some content.
-      </span>
-    </Footer>
+    <div class="window-content">
+      <div class="pane-group">
+        <div class="pane-sm sidebar">
+          <div class="padded-more">Sidebar</div>
+        </div>
+        <div class="pane">
+          <div class="padded-more">Main content pane</div>
+        </div>
+      </div>
+    </div>
   </div>
 );
