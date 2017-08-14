@@ -6,8 +6,8 @@ import {
   h,
 } from 'preact';
 
-import SMSView from './SMSView';
+import TextsView from './TextsView';
 
 export default () => (
-  <SMSView />
+  <TextsView />
 );
