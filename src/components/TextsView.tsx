@@ -7,67 +7,41 @@ import {
 } from 'preact';
 
 import {
+  ListGroup,
+  ListGroupHeader,
+  Pane,
+  PaneGroup,
+  Sidebar,
   WindowContent,
 } from './ProtonUI';
 
-const TextsView = (_props: {
-  path: string
+import TextRow from './TextRow';
+
+const TextsView = (props: {
+  path: string,
+  texts: ShareText.Text[],
 }) => (
   <WindowContent>
-    <div class="pane-group">
-      <div class="pane-sm sidebar">
-      <ul class="list-group">
-        <li class="list-group-header">
-          <input class="form-control" type="text" placeholder="Search for someone" />
-        </li>
-        <li class="list-group-item active">
-          <img class="img-circle media-object pull-left" src="/assets/img/avatar.jpg" width="32" height="32" />
-          <div class="media-body">
-            <strong>List item title</strong>
-            <p>Lorem ipsum dolor sit amet.</p>
-          </div>
-        </li>
-        <li class="list-group-item">
-          <img class="img-circle media-object pull-left" src="/assets/img/avatar2.png" width="32" height="32" />
-          <div class="media-body">
-            <strong>List item title</strong>
-            <p>Lorem ipsum dolor sit amet.</p>
-          </div>
-        </li>
-        <li class="list-group-item">
-          <img class="img-circle media-object pull-left" src="/assets/img/avatar3.jpg" width="32" height="32" />
-          <div class="media-body">
-            <strong>List item title</strong>
-            <p>Lorem ipsum dolor sit amet.</p>
-          </div>
-        </li>
-        <li class="list-group-item">
-          <img class="img-circle media-object pull-left" src="/assets/img/avatar4.jpg" width="32" height="32" />
-          <div class="media-body">
-            <strong>List item title</strong>
-            <p>Lorem ipsum dolor sit amet.</p>
-          </div>
-        </li>
-        <li class="list-group-item">
-          <img class="img-circle media-object pull-left" src="/assets/img/avatar5.png" width="32" height="32" />
-          <div class="media-body">
-            <strong>List item title</strong>
-            <p>Lorem ipsum dolor sit amet.</p>
-          </div>
-        </li>
-        <li class="list-group-item">
-          <img class="img-circle media-object pull-left" src="/assets/img/avatar6.jpg" width="32" height="32" />
-          <div class="media-body">
-            <strong>List item title</strong>
-            <p>Lorem ipsum dolor sit amet.</p>
-          </div>
-        </li>
-      </ul>
-      </div>
-      <div class="pane">
+    <PaneGroup>
+      <Sidebar class="pane-sm">
+        <ListGroup>
+          <ListGroupHeader>
+            <input class="form-control" type="text" placeholder="Search for someone" />
+          </ListGroupHeader>
+          {props.texts.map((text, i) =>
+          <TextRow
+            active={i === 0}
+            avatar={`/assets/image/${text.sender}`}
+            sender={text.sender}
+            message={text.message}
+          />
+          )}
+        </ListGroup>
+      </Sidebar>
+      <Pane>
         <div class="padded-more">Main content pane</div>
-      </div>
-    </div>
+      </Pane>
+    </PaneGroup>
   </WindowContent>
 )
 

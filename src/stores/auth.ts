@@ -102,7 +102,12 @@ export const auth = (state: AuthState = {
 }, action: AuthActions): AuthState => {
   switch (action.type) {
     case UPDATE_HOST:
-      return { ...state, host: action.host };
+      return {
+        ...state,
+        host: action.host.startsWith('http') ?
+          action.host :
+          `http://${action.host}`
+      };
     case UPDATE_CODE:
       return { ...state, code: action.code };
     default:

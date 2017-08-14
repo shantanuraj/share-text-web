@@ -161,10 +161,18 @@ export const FormGroup = componentNode('div', 'form-group');
 /** Group buttons at the bottom of a form. */
 export const FormActions = componentNode('div', 'form-actions');
 
-
 /** Just an enhanced `<table>` */
 export const Table = component( ({ class:className, striped, children, ...props }) => (
 	<table {...props} class={c(className, striped && 'table-striped')}>
 		{ children }
 	</table>
 ));
+
+/** Pane */
+export const Pane = componentNode('div', 'pane');
+
+/** PaneGroup  */
+export const PaneGroup = componentNode('div', 'pane-group');
+
+/** Sidebar */
+export const Sidebar = componentNode('div', 'sidebar');
