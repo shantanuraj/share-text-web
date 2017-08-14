@@ -43,7 +43,7 @@ const App = () => (
     <WindowEl>
       <Router>
         <AuthView path="/" />
-        <TextsView path="/texts" texts={texts} />
+        <TextsView path="/texts/:text?" texts={texts} />
       </Router>
     </WindowEl>
   </Provider>

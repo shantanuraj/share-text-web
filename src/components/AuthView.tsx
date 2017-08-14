@@ -4,15 +4,21 @@
 
 import {
   h,
+  Component,
 } from 'preact';
-
 import {
-  WindowContent,
-} from './ProtonUI';
+  route,
+} from 'preact-router';
 
 import {
   onEvent,
 } from '../utils';
+import {
+  AuthState,
+} from '../stores/auth';
+import {
+  WindowContent,
+} from './ProtonUI';
 
 const styles = {
   container: {
@@ -27,29 +33,59 @@ interface AuthProps {
   onCodeChange: (code: string) => void;
 }
 
-const AuthView = (props: AuthProps) => (
-  <WindowContent style={styles.container}>
-    <form>
-      <div class="form-group">
-        <label>Host</label>
-        <input
-          type="url"
-          class="form-control"
-          placeholder="Enter device IP and port"
-          onInput={onEvent(props.onHostChange)}
-        />
-      </div>
-      <div class="form-group">
-        <label>Code</label>
-        <input
-          type="password"
-          class="form-control"
-          placeholder="Enter code from app"
-          onInput={onEvent(props.onCodeChange)}
-        />
-      </div>
-    </form>
-  </WindowContent>
-);
+class AuthView extends Component<AuthProps & AuthState, {}> {
+  public render() {
+    const {
+      onCodeChange,
+      onHostChange,
+    } = this.props;
+
+    return (
+      <WindowContent style={styles.container}>
+        <form>
+          <div class="form-group">
+            <label>Host</label>
+            <input
+              type="url"
+              class="form-control"
+              placeholder="Enter device IP and port"
+              onInput={onEvent(onHostChange)}
+            />
+          </div>
+          <div class="form-group">
+            <label>Code</label>
+            <input
+              type="password"
+              class="form-control"
+              placeholder="Enter code from app"
+              onInput={onEvent(onCodeChange)}
+            />
+          </div>
+        </form>
+      </WindowContent>
+    );
+  }
+
+  public componentDidMount() {
+    this.checkAuth();
+  }
+
+  public componentDidUpdate() {
+    this.checkAuth();
+  }
+
+  private checkAuth() {
+    const {
+      authorized,
+    } = this.props;
+    if (authorized) {
+      this.openTexts();
+    }
+  }
+
+  private openTexts() {
+    route('/texts');
+  }
+}
 
 export default AuthView;
