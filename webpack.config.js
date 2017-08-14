@@ -47,9 +47,12 @@ module.exports = env => {
   return {
     entry: {
       'vendor': [
-        'mobx',
-        'mobx-observer',
         'preact',
+        'preact-redux',
+        'preact-router',
+        'redux',
+        'redux-observable',
+        'rxjs/Observable',
       ],
       'app': './index.tsx',
     },
