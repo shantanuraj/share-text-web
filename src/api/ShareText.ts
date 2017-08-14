@@ -1,6 +1,9 @@
 /**
  * TextShare API
  */
+
+import { ajax } from 'rxjs/observable/dom/ajax';
+
 export default class ShareText {
   constructor(
     private host: string,
@@ -13,19 +16,20 @@ export default class ShareText {
   static CODE_HEADER = 'x-text-code';
 
   private api(url: string = '/') {
-    const headers = new Headers();
-    headers.append(ShareText.CODE_HEADER, this.code);
-    return fetch(`${this.host}${url}`, { headers });
+    const headers = {
+      [ShareText.CODE_HEADER]: this.code,
+    };
+
+    return ajax({
+      url: `${this.host}${url}`,
+      headers,
+      responseType: 'json',
+    });
   }
 
-  public async getTexts(): Promise<ShareText.Text[]> {
-    try {
-      const data = await this.api('/texts');
-      const res = await data.json() as ShareTextApi.Texts;
-      return res.texts;
-    } catch (err) {
-      console.error(err);
-      return [];
-    }
+  public getTexts() {
+    return this.api('/texts')
+    .map(res => res.response as ShareTextApi.Texts)
+    .map(res => res.texts);
   }
 }
