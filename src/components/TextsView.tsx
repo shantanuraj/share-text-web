@@ -1,12 +1,14 @@
 /**
- * SMSView component
+ * Texts view component
  */
 
 import {
   h,
 } from 'preact';
 
-const SMSView = () => (
+const TextsView = (_props: {
+  path: string
+}) => (
   <div class="window">
     <div class="window-content">
       <div class="pane-group">
@@ -67,4 +69,4 @@ const SMSView = () => (
   </div>
 )
 
-export default SMSView;
+export default TextsView;

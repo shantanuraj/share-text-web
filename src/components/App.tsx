@@ -11,6 +11,8 @@ import {
 import Router from 'preact-router';
 
 import configureStore from '../stores';
+
+import AuthView from './AuthView';
 import TextsView from './TextsView';
 
 const store = configureStore();
@@ -18,7 +20,8 @@ const store = configureStore();
 export default () => (
   <Provider store={store}>
     <Router>
-      <TextsView />
+      <AuthView path="/" />
+      <TextsView path="/texts" />
     </Router>
   </Provider>
 );
