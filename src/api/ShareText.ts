@@ -32,6 +32,7 @@ export default class ShareText {
       url: `${this.host}${url}`,
       headers,
       responseType: 'json',
+      crossDomain: true,
     };
   }
 
@@ -39,12 +40,9 @@ export default class ShareText {
     return ajax({ ...this.api(), responseType: 'text' })
       .map(res =>
         res.status === ShareText.STATUS_SUCCESS &&
-        res.responseText === this.code
+        res.response === this.code
       )
-      .catch(err => {
-        console.error(err);
-        return Observable.of(false);
-      });
+      .catch(() => Observable.of(false));
   }
 
   public getTexts(): Observable<ShareText.Text[]> {

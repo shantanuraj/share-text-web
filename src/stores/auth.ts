@@ -110,6 +110,8 @@ export const auth = (state: AuthState = {
       };
     case UPDATE_CODE:
       return { ...state, code: action.code };
+    case FETCH_AUTH_FULFILLED:
+      return { ...state, authorized: action.authorized };
     default:
       return state;
   }
