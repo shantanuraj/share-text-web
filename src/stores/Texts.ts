@@ -6,14 +6,18 @@ import {
   Epic,
 } from 'redux-observable';
 
+import {
+  State,
+} from '../stores/root';
+
 import ShareText from '../api/ShareText';
 
 type FetchTexts = 'FETCH_TEXTS';
 const FETCH_TEXTS: FetchTexts = 'FETCH_TEXTS';
 interface FetchTextsAction {
-  type: FetchTexts,
-  host: string,
-  code: string,
+  type: FetchTexts;
+  host: string;
+  code: string;
 }
 
 /**
@@ -46,7 +50,9 @@ const fetchTextsFulfilled = (texts: ShareText.Text[]): FetchTextsFulfilledAction
 /**
  * Texts reducer actions
  */
-type TextsActions = FetchTextsAction | FetchTextsFulfilledAction;
+export type TextsActions =
+  FetchTextsAction |
+  FetchTextsFulfilledAction;
 
 /**
  * Texts specific state
@@ -59,7 +65,7 @@ export interface TextsState {
 /**
  * Fetch texts epic
  */
-export const fetchTextsEpic: Epic<TextsActions, TextsState> = action$ =>
+export const fetchTextsEpic: Epic<TextsActions, State> = action$ =>
   action$.ofType(FETCH_TEXTS)
     .mergeMap((action: FetchTextsAction) =>
       new ShareText(action.host, action.code)
@@ -68,12 +74,12 @@ export const fetchTextsEpic: Epic<TextsActions, TextsState> = action$ =>
     );
 
 /**
- * Texts store
+ * Texts reducer
  */
 export const texts = (state: TextsState = {
   loading: false,
   texts: [],
-}, action: TextsActions) => {
+}, action: TextsActions): TextsState => {
   switch (action.type) {
     case FETCH_TEXTS:
       return { ...state, loading: true };
