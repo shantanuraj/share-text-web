@@ -28,16 +28,19 @@ export default class ShareText {
       [ShareText.CODE_HEADER]: this.code,
     };
 
-    return ajax({
+    return {
       url: `${this.host}${url}`,
       headers,
       responseType: 'json',
-    });
+    };
   }
 
   public getAuth(): Observable<boolean> {
-    return this.api()
-      .map(res => res.status === ShareText.STATUS_SUCCESS)
+    return ajax({ ...this.api(), responseType: 'text' })
+      .map(res =>
+        res.status === ShareText.STATUS_SUCCESS &&
+        res.responseText === this.code
+      )
       .catch(err => {
         console.error(err);
         return Observable.of(false);
@@ -45,7 +48,7 @@ export default class ShareText {
   }
 
   public getTexts(): Observable<ShareText.Text[]> {
-    return this.api('/texts')
+    return ajax(this.api('/texts'))
       .map(res => res.response as ShareTextApi.Texts)
       .map(res => res.texts)
       .catch(err => {
