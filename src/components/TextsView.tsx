@@ -15,18 +15,26 @@ import {
   WindowContent,
 } from './ProtonUI';
 
-import TextRow from './TextRow';
+import {
+  TextsState,
+} from '../stores/texts';
 
-const TextsView = (props: {
-  path: string,
-  texts: ShareText.Text[],
-}) => (
+import TextRow from './TextRow';
+import LoadingView from './LoadingView';
+
+interface TextsViewProps extends TextsState {
+  path: string;
+}
+
+const TextsView = (props: TextsViewProps) => (
+  props.loading ?
+  <LoadingView /> :
   <WindowContent>
     <PaneGroup>
       <Sidebar class="pane-sm">
         <ListGroup>
           <ListGroupHeader>
-            <input class="form-control" type="text" placeholder="Search for someone" />
+            <input class="form-control" type="text" placeholder="Search..." />
           </ListGroupHeader>
           {props.texts.map((text, i) =>
           <TextRow

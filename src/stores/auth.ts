@@ -48,15 +48,26 @@ type FetchAuthFulfilled = 'FETCH_AUTH_FULFILLED';
 const FETCH_AUTH_FULFILLED: FetchAuthFulfilled = 'FETCH_AUTH_FULFILLED';
 interface FetchAuthFulfilledAction {
   type: FetchAuthFulfilled;
-  authorized: boolean;
 }
 
 /**
  * Action creator for successful authorization
  */
-const fetchAuthFulfilled = (authorized: boolean): FetchAuthFulfilledAction => ({
+const fetchAuthFulfilled = (): FetchAuthFulfilledAction => ({
   type: FETCH_AUTH_FULFILLED,
-  authorized,
+});
+
+type FetchAuthFailure = 'FETCH_AUTH_FAILURE';
+const FETCH_AUTH_FAILURE: FetchAuthFailure = 'FETCH_AUTH_FAILURE';
+interface FetchAuthFailureAction {
+  type: FetchAuthFailure;
+}
+
+/**
+ * Action creator for successful authorization
+ */
+const fetchAuthFailure = (): FetchAuthFailureAction => ({
+  type: FETCH_AUTH_FAILURE,
 });
 
 /**
@@ -65,7 +76,8 @@ const fetchAuthFulfilled = (authorized: boolean): FetchAuthFulfilledAction => ({
 export type AuthActions =
   UpdateHostAction |
   UpdateCodeAction |
-  FetchAuthFulfilledAction;
+  FetchAuthFulfilledAction |
+  FetchAuthFailureAction;
 
 /**
  * Auth specific state
@@ -89,7 +101,10 @@ export const fetchAuthEpic: Epic<AuthActions, State> = (action$, store) =>
       } = store.getState().auth;
       return new ShareText(host, code)
         .getAuth()
-        .map(fetchAuthFulfilled);
+        .map(authorized => authorized ?
+          fetchAuthFulfilled() :
+          fetchAuthFailure()
+        );
     });
 
 /**
@@ -111,7 +126,9 @@ export const auth = (state: AuthState = {
     case UPDATE_CODE:
       return { ...state, code: action.code };
     case FETCH_AUTH_FULFILLED:
-      return { ...state, authorized: action.authorized };
+      return { ...state, authorized: true };
+    case FETCH_AUTH_FAILURE:
+      return { ...state, authorized: false };
     default:
       return state;
   }

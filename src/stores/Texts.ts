@@ -16,19 +16,13 @@ type FetchTexts = 'FETCH_TEXTS';
 const FETCH_TEXTS: FetchTexts = 'FETCH_TEXTS';
 interface FetchTextsAction {
   type: FetchTexts;
-  host: string;
-  code: string;
 }
 
 /**
  * Action creator for fetching texts
- * @param host - Host address of TextShare compliant server
- * @param code - 2FA security code for authentication
  */
-export const fetchTexts = (host: string, code: string): FetchTextsAction => ({
+export const fetchTexts = (): FetchTextsAction => ({
   type: FETCH_TEXTS,
-  host,
-  code,
 });
 
 type FetchTextsFulfilled = 'FETCH_TEXTS_FULFILLED';
@@ -65,13 +59,17 @@ export interface TextsState {
 /**
  * Fetch texts epic
  */
-export const fetchTextsEpic: Epic<TextsActions, State> = action$ =>
+export const fetchTextsEpic: Epic<TextsActions, State> = (action$, store) =>
   action$.ofType(FETCH_TEXTS)
-    .mergeMap((action: FetchTextsAction) =>
-      new ShareText(action.host, action.code)
-        .getTexts()
-        .map(fetchTextsFulfilled)
-    );
+    .mergeMap(() => {
+      const {
+        host,
+        code,
+      } = store.getState().auth;
+      return new ShareText(host, code)
+      .getTexts()
+      .map(fetchTextsFulfilled)
+    });
 
 /**
  * Texts reducer

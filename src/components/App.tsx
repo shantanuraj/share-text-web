@@ -16,34 +16,16 @@ import {
   WindowEl,
 } from './ProtonUI';
 import AuthView from '../containers/AuthView';
-import TextsView from './TextsView';
+import TextsView from '../containers/TextsView';
 
 const store = configureStore();
-
-const texts: ShareText.Text[] = [
-  {
-    date: 0,
-    message: 'Lorem ipsum dolor sit amet.',
-    sender: 'List item title',
-  },
-  {
-    date: 0,
-    message: 'Lorem ipsum dolor sit amet.',
-    sender: 'List item title',
-  },
-  {
-    date: 0,
-    message: 'Lorem ipsum dolor sit amet.',
-    sender: 'List item title',
-  },
-];
 
 const App = () => (
   <Provider store={store}>
     <WindowEl>
       <Router>
         <AuthView path="/" />
-        <TextsView path="/texts/:text?" texts={texts} />
+        <TextsView path="/texts/:text?" />
       </Router>
     </WindowEl>
   </Provider>
