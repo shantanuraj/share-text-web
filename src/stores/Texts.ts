@@ -7,10 +7,20 @@ import {
 } from 'redux-observable';
 
 import {
+  cloneDeep,
+} from 'lodash-es';
+
+import {
   State,
+  Actions,
 } from '../stores/root';
 
 import {
+  navigate,
+} from '../stores/router';
+
+import {
+  filterThreads,
   toThreads,
 } from '../utils';
 
@@ -45,12 +55,29 @@ const fetchTextsFulfilled = (texts: ShareText.Text[]): FetchTextsFulfilledAction
   texts,
 });
 
+type SearchTexts = 'SEARCH_TEXTS';
+const SEARCH_TEXTS: SearchTexts = 'SEARCH_TEXTS';
+interface SearchTextsAction {
+  type: SearchTexts;
+  query: string;
+}
+
+/**
+ * Action creator for searching texts
+ * @param query - Filter query
+ */
+export const searchTexts = (query: string): SearchTextsAction => ({
+  type: SEARCH_TEXTS,
+  query,
+});
+
 /**
  * Texts reducer actions
  */
 export type TextsActions =
   FetchTextsAction |
-  FetchTextsFulfilledAction;
+  FetchTextsFulfilledAction |
+  SearchTextsAction;
 
 /**
  * Texts specific state
@@ -59,6 +86,8 @@ export interface TextsState {
   loading: boolean;
   texts: ShareText.Text[];
   threads: ShareText.TextThread[];
+  filteredThreads: ShareText.TextThread[];
+  query: string;
 }
 
 /**
@@ -77,18 +106,41 @@ export const fetchTextsEpic: Epic<TextsActions, State> = (action$, store) =>
     });
 
 /**
+ * Search texts epic
+ */
+export const searchTextsEpic: Epic<Actions, State> = action$ =>
+  action$.ofType(SEARCH_TEXTS)
+    .map((action: SearchTextsAction) => `/texts?q=${encodeURIComponent(action.query)}`)
+    .map(navigate);
+
+/**
  * Texts reducer
  */
 export const texts = (state: TextsState = {
   loading: false,
   texts: [],
   threads: [],
+  filteredThreads: [],
+  query: '',
 }, action: TextsActions): TextsState => {
   switch (action.type) {
     case FETCH_TEXTS:
       return { ...state, loading: true };
     case FETCH_TEXTS_FULFILLED:
-      return { ...state, loading: false, texts: action.texts, threads: toThreads(action.texts) };
+      const threads = toThreads(action.texts);
+      return {
+        ...state,
+        loading: false,
+        texts: action.texts,
+        threads,
+        filteredThreads: cloneDeep(threads),
+      };
+    case SEARCH_TEXTS:
+      return {
+        ...state,
+        query: action.query,
+        filteredThreads: filterThreads(state.threads, action.query),
+      };
     default:
       return state;
   }

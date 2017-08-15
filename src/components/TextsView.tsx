@@ -23,6 +23,8 @@ import {
   WindowContent,
 } from './ProtonUI';
 
+import Search from '../containers/Search';
+
 import TextRow from './TextRow';
 import LoadingView from './LoadingView';
 import Messages from './Messages';
@@ -49,7 +51,7 @@ const TextsView = (props: TextsViewProps) => (
       <Sidebar class="pane pane-sm">
         <ListGroup>
           <ListGroupHeader>
-            <input class="form-control" type="text" placeholder="Search..." />
+            <Search />
           </ListGroupHeader>
           {props.threads.map(([sender, texts], i) =>
           <TextRow

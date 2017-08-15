@@ -37,3 +37,25 @@ export const toThreads = (texts: ShareText.Text[]): ShareText.TextThread[] => {
   }, 'desc');
   return orderedPairs;
 }
+
+/**
+ * Filter threads by query
+ */
+export const filterThreads = (threads: ShareText.TextThread[], query: string) => {
+  const query_ = query.toLowerCase();
+  const filteredMessages = threads
+    .map(thread => {
+      const [
+        sender,
+        texts,
+      ] = thread;
+      return [
+        sender,
+        // Filter by text message body
+        texts.filter(text => text.message.toLowerCase().includes(query_)),
+      ] as ShareText.TextThread;
+    })
+    .filter(([, messages]) => messages.length > 0);
+
+  return filteredMessages;
+}

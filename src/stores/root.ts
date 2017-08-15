@@ -30,6 +30,7 @@ import {
   TextsState,
   texts,
   fetchTextsEpic,
+  searchTextsEpic,
 } from './texts';
 
 /**
@@ -62,6 +63,8 @@ export const getDefaultState = (): State => ({
     loading: false,
     texts: [],
     threads: [],
+    filteredThreads: [],
+    query: '',
   }
 });
 
@@ -70,6 +73,7 @@ export const rootEpic = combineEpics<Actions, State>(
   fetchAuthEpic,
   fetchTextsEpic,
   routerEpic,
+  searchTextsEpic,
 );
 
 export const rootReducer = combineReducers<State>({
