@@ -7,6 +7,14 @@ import {
 } from 'preact';
 
 import {
+  TextsState,
+} from '../stores/texts';
+
+import {
+  getAvatar,
+} from '../utils';
+
+import {
   ListGroup,
   ListGroupHeader,
   Pane,
@@ -14,10 +22,6 @@ import {
   Sidebar,
   WindowContent,
 } from './ProtonUI';
-
-import {
-  TextsState,
-} from '../stores/texts';
 
 import TextRow from './TextRow';
 import LoadingView from './LoadingView';
@@ -39,7 +43,7 @@ const TextsView = (props: TextsViewProps) => (
           {props.texts.map((text, i) =>
           <TextRow
             active={i === 0}
-            avatar={`http://via.placeholder.com/32/000000/ffffff?text=${text.sender[0]}`}
+            avatar={getAvatar(text.sender)}
             sender={text.sender}
             message={text.message}
           />
