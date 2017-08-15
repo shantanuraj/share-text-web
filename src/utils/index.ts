@@ -56,8 +56,12 @@ export const filterThreads = (threads: ShareText.TextThread[], query: string) =>
       ] = thread;
       return [
         threadId,
-        // Filter by text message body
-        texts.filter(text => text.message.toLowerCase().includes(query_)),
+        texts.filter(text =>
+          // Filter by text message address
+          text.address.toLocaleLowerCase().includes(query_) ||
+          // Filter by text message body
+          text.message.toLowerCase().includes(query_)
+        ),
       ] as ShareText.TextThread;
     })
     .filter(([, messages]) => messages.length > 0);
