@@ -6,9 +6,6 @@ import {
   h,
   Component,
 } from 'preact';
-import {
-  route,
-} from 'preact-router';
 
 import {
   onEvent,
@@ -29,6 +26,7 @@ const styles = {
 };
 
 interface AuthProps {
+  showTexts: () => void;
   onHostChange: (host: string) => void;
   onCodeChange: (code: string) => void;
 }
@@ -77,14 +75,11 @@ class AuthView extends Component<AuthProps & AuthState, {}> {
   private checkAuth() {
     const {
       authorized,
+      showTexts,
     } = this.props;
     if (authorized) {
-      this.openTexts();
+      showTexts();
     }
-  }
-
-  private openTexts() {
-    route('/texts');
   }
 }
 

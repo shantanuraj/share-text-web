@@ -39,7 +39,7 @@ interface NavigationCompleteAction {
 /**
  * Action creator for navigating between routes
  */
-export const navigationComplete = (route: string): NavigationCompleteAction => ({
+const navigationComplete = (route: string): NavigationCompleteAction => ({
   type: NAVIGATION_COMPLETE,
   route,
 });
@@ -60,7 +60,7 @@ export interface RouterState {
  */
 export const routerEpic: Epic<RouterActions, State> = action$ =>
   action$.ofType(NAVIGATE)
-    .mergeMap(action => action.route)
+    .map(action => action.route)
     .map(route => {
       routeTo(route);
       return navigationComplete(route);

@@ -17,6 +17,9 @@ import {
   updateCode,
   updateHost,
 } from '../stores/auth';
+import {
+  navigate,
+} from '../stores/router';
 
 import AuthView from '../components/AuthView';
 
@@ -24,6 +27,7 @@ const mapState = (state: State) => state.auth;
 const mapDispatch = (dispatch: Dispatch<State>) => bindActionCreators({
   onHostChange: updateHost,
   onCodeChange: updateCode,
+  showTexts: () => navigate('/texts'),
 }, dispatch);
 
 const Connected = connect(
