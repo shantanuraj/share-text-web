@@ -9,27 +9,27 @@ import {
 import MessageItem from './MessageItem';
 
 interface MessagesProps {
-  sender: string;
+  address: string;
   texts: ShareText.Text[];
 }
 
 const renderTexts = (props: MessagesProps) => {
   const {
-    sender,
+    address,
     texts,
   } = props;
 
   const header = (
     <MessageItem
       type='system'
-      message={`Chat with ${sender}`}
+      message={`Chat with ${address}`}
       description={new Date(texts[0].date).toDateString()}
     />
   );
 
   const messages = texts.map(text =>
     <MessageItem
-      type='extern'
+      type={text.sent ? 'self' : 'extern'}
       message={text.message}
       description={`Sent at ${new Date(text.date).toDateString()}`}
     />

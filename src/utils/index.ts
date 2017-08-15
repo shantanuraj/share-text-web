@@ -19,17 +19,17 @@ export const onEvent = (fn: (val: string) => void) => {
 };
 
 /**
- * Get placeholder image for sender
+ * Get placeholder image for address
  *
  */
-export const getAvatar = (sender: string) =>
-  `https://via.placeholder.com/32/000000/ffffff?text=${sender.slice(0, 2)}`;
+export const getAvatar = (address: string) =>
+  `https://via.placeholder.com/32/000000/ffffff?text=${address.slice(0, 2)}`;
 
 /**
  * Convert list of texts to threads
  */
 export const toThreads = (texts: ShareText.Text[]): ShareText.TextThread[] => {
-  const groupedTexts = groupBy(texts, text => text.sender);
+  const groupedTexts = groupBy(texts, text => text.thread);
   const pairedTexts  = toPairs<{}, ShareText.Text[]>(groupedTexts);
   const orderedPairs = orderBy<ShareText.TextThread>(pairedTexts, pair => {
     const [ ,texts ] = pair;
@@ -51,11 +51,11 @@ export const filterThreads = (threads: ShareText.TextThread[], query: string) =>
   const filteredMessages = threads
     .map(thread => {
       const [
-        sender,
+        threadId,
         texts,
       ] = thread;
       return [
-        sender,
+        threadId,
         // Filter by text message body
         texts.filter(text => text.message.toLowerCase().includes(query_)),
       ] as ShareText.TextThread;

@@ -52,17 +52,21 @@ const renderThread = (props: TextsViewProps) => {
     filteredThreads,
   } = props;
 
-  if (thread > props.filteredThreads.length) {
+  if (
+    filteredThreads.length === 0 ||
+    thread > filteredThreads.length
+  ) {
     return <div />;
   }
+
   const [
-    sender,
+    ,
     texts,
   ] = filteredThreads[thread];
 
   return (
     <Messages
-      sender={sender}
+      address={texts[0].address}
       texts={orderBy<ShareText.Text>(texts, text => text.date, 'asc')}
     />
   );
@@ -79,11 +83,11 @@ const TextsView = (props: TextsViewProps) => (
           <ListGroupHeader>
             <Search />
           </ListGroupHeader>
-          {props.filteredThreads.map(([sender, texts], i) =>
+          {props.filteredThreads.map(([, texts], i) =>
           <TextRow
             active={currentThread(props) === i}
-            avatar={getAvatar(sender)}
-            sender={sender}
+            avatar={getAvatar(texts[0].address)}
+            address={texts[0].address}
             message={texts[0].message}
             showThread={() => props.showThread(i)}
           />
