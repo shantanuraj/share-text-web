@@ -9,6 +9,7 @@ declare module ShareText {
     date: number;
   }
 
+  export type TextThread = [string, ShareText.Text[]];
 }
 
 declare module ShareTextApi {

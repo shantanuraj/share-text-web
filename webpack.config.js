@@ -47,6 +47,8 @@ module.exports = env => {
   return {
     entry: {
       'vendor': [
+        'lodash.groupby',
+        'lodash.orderby',
         'preact',
         'preact-redux',
         'preact-router',

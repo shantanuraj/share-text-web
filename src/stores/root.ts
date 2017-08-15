@@ -49,6 +49,7 @@ export const getDefaultState = (): State => ({
   texts: {
     loading: false,
     texts: [],
+    threads: [],
   }
 });
 

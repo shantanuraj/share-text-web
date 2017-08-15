@@ -41,12 +41,12 @@ const TextsView = (props: TextsViewProps) => (
           <ListGroupHeader>
             <input class="form-control" type="text" placeholder="Search..." />
           </ListGroupHeader>
-          {props.texts.map((text, i) =>
+          {props.threads.map(([sender, texts], i) =>
           <TextRow
             active={i === 0}
-            avatar={getAvatar(text.sender)}
-            sender={text.sender}
-            message={text.message}
+            avatar={getAvatar(sender)}
+            sender={sender}
+            message={texts[texts.length - 1].message}
           />
           )}
         </ListGroup>

@@ -10,6 +10,10 @@ import {
   State,
 } from '../stores/root';
 
+import {
+  toThreads,
+} from '../utils';
+
 import ShareText from '../api/ShareText';
 
 type FetchTexts = 'FETCH_TEXTS';
@@ -54,6 +58,7 @@ export type TextsActions =
 export interface TextsState {
   loading: boolean;
   texts: ShareText.Text[];
+  threads: ShareText.TextThread[];
 }
 
 /**
@@ -77,12 +82,13 @@ export const fetchTextsEpic: Epic<TextsActions, State> = (action$, store) =>
 export const texts = (state: TextsState = {
   loading: false,
   texts: [],
+  threads: [],
 }, action: TextsActions): TextsState => {
   switch (action.type) {
     case FETCH_TEXTS:
       return { ...state, loading: true };
     case FETCH_TEXTS_FULFILLED:
-      return { ...state, loading: false, texts: action.texts };
+      return { ...state, loading: false, texts: action.texts, threads: toThreads(action.texts) };
     default:
       return state;
   }
