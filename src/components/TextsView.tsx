@@ -66,7 +66,7 @@ const TextsView = (props: TextsViewProps) => (
       </Sidebar>
       <Pane>
         {
-          props.texts.length > 0 ?
+          currentThread(props) < props.filteredThreads.length ?
           <Messages
             sender={props.filteredThreads[currentThread(props)][0]}
             texts={props.filteredThreads[currentThread(props)][1]}
