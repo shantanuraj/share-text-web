@@ -31,7 +31,7 @@ export const Title = componentNode('h1', 'title');
  *	@example
  *	<Icon name="close" />
  */
-export const Icon = component( ({ class:className, text, name, children, ...props }) => (
+export const Icon = component( ({ class: className, text, name, children, ...props }) => (
 	<span {...props} class={c(className, `icon icon-${name}`, text && 'icon-text')}>{ children }</span>
 ));
 

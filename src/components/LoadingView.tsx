@@ -14,15 +14,21 @@ import {
 const styles = {
   container: {
     display: 'flex',
+    flexDirection: 'column',
     alignItems: 'center',
-    justifyContet: 'center',
+    justifyContent: 'center',
+    width: `100%`,
+  },
+  icon: {
+    fontSize: 20,
   },
 };
 
 const LoadingView = () => (
-  <WindowContent style={styles.container}>
-    <div>
-      <Icon class="icon-hourglass" />
+  <WindowContent>
+    <div style={styles.container}>
+      <Icon  style={styles.icon} class="icon-hourglass" />
+      <p>Loading...</p>
     </div>
   </WindowContent>
 );
