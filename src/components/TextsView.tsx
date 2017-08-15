@@ -39,7 +39,7 @@ const TextsView = (props: TextsViewProps) => (
           {props.texts.map((text, i) =>
           <TextRow
             active={i === 0}
-            avatar={`/assets/image/${text.sender}`}
+            avatar={`http://via.placeholder.com/32/000000/ffffff?text=${text.sender[0]}`}
             sender={text.sender}
             message={text.message}
           />
