@@ -176,3 +176,6 @@ export const PaneGroup = componentNode('div', 'pane-group');
 
 /** Sidebar */
 export const Sidebar = componentNode('div', 'sidebar');
+
+/** Progress */
+export const Progress = componentNode('progress');

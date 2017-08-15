@@ -7,7 +7,7 @@ import {
 } from 'preact';
 
 import {
-  Icon,
+  Progress,
   WindowContent,
 } from './ProtonUI';
 
@@ -27,7 +27,7 @@ const styles = {
 const LoadingView = () => (
   <WindowContent>
     <div style={styles.container}>
-      <Icon  style={styles.icon} class="icon-hourglass" />
+      <Progress />
       <p>Loading...</p>
     </div>
   </WindowContent>

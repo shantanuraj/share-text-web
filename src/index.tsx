@@ -2,11 +2,15 @@
  * Root app file
  */
 
-import 'photonkit/dist/css/photon.css';
 import {
   h,
   render,
 } from 'preact';
+
+// Base photonkit css
+import 'photonkit/dist/css/photon.css';
+// Progress css
+import './styles/progress.css';
 
 // Patch Rx operators
 import './utils/patch_operators';
