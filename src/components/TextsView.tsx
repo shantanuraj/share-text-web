@@ -29,6 +29,15 @@ import Messages from './Messages';
 
 interface TextsViewProps extends TextsState {
   path: string;
+  thread: string;
+}
+
+const currentThread = (props: TextsViewProps) => {
+  try {
+    return parseInt(props.thread, 10) || 0;
+  } catch (err) {
+    return 0;
+  }
 }
 
 const TextsView = (props: TextsViewProps) => (
@@ -43,7 +52,7 @@ const TextsView = (props: TextsViewProps) => (
           </ListGroupHeader>
           {props.threads.map(([sender, texts], i) =>
           <TextRow
-            active={i === 0}
+            active={currentThread(props) === i}
             avatar={getAvatar(sender)}
             sender={sender}
             message={texts[texts.length - 1].message}
@@ -54,7 +63,10 @@ const TextsView = (props: TextsViewProps) => (
       <Pane>
         {
           props.texts.length > 0 ?
-          <Messages sender={props.texts[0].sender} texts={props.texts} /> :
+          <Messages
+            sender={props.threads[currentThread(props)][0]}
+            texts={props.threads[currentThread(props)][1]}
+          /> :
           <div />
         }
       </Pane>

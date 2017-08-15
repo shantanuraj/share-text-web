@@ -25,7 +25,7 @@ const App = () => (
     <WindowEl>
       <Router>
         <AuthView path="/" />
-        <TextsView path="/texts/:text?" />
+        <TextsView path="/texts/:thread?" />
       </Router>
     </WindowEl>
   </Provider>
