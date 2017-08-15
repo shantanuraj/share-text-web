@@ -43,6 +43,11 @@ export const toThreads = (texts: ShareText.Text[]): ShareText.TextThread[] => {
  */
 export const filterThreads = (threads: ShareText.TextThread[], query: string) => {
   const query_ = query.toLowerCase();
+
+  if(!query_) {
+    return threads;
+  }
+
   const filteredMessages = threads
     .map(thread => {
       const [

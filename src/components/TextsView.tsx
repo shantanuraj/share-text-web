@@ -53,7 +53,7 @@ const TextsView = (props: TextsViewProps) => (
           <ListGroupHeader>
             <Search />
           </ListGroupHeader>
-          {props.threads.map(([sender, texts], i) =>
+          {props.filteredThreads.map(([sender, texts], i) =>
           <TextRow
             active={currentThread(props) === i}
             avatar={getAvatar(sender)}
@@ -68,8 +68,8 @@ const TextsView = (props: TextsViewProps) => (
         {
           props.texts.length > 0 ?
           <Messages
-            sender={props.threads[currentThread(props)][0]}
-            texts={props.threads[currentThread(props)][1]}
+            sender={props.filteredThreads[currentThread(props)][0]}
+            texts={props.filteredThreads[currentThread(props)][1]}
           /> :
           <div />
         }
