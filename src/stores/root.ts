@@ -15,6 +15,7 @@ import {
   AuthState,
   auth,
   fetchAuthEpic,
+  authFulfilledEpic,
 } from './auth';
 
 import {
@@ -27,7 +28,7 @@ import {
 /**
  * Combined application actions interface
  */
-type Actions =
+export type Actions =
   AuthActions |
   TextsActions;
 
@@ -53,6 +54,7 @@ export const getDefaultState = (): State => ({
 
 export const rootEpic = combineEpics<Actions, State>(
   fetchAuthEpic,
+  authFulfilledEpic,
   fetchTextsEpic,
 );
 

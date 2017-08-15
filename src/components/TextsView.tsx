@@ -31,7 +31,7 @@ const TextsView = (props: TextsViewProps) => (
   <LoadingView /> :
   <WindowContent>
     <PaneGroup>
-      <Sidebar class="pane-sm">
+      <Sidebar class="pane pane-sm">
         <ListGroup>
           <ListGroupHeader>
             <input class="form-control" type="text" placeholder="Search..." />

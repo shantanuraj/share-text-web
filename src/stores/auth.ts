@@ -8,9 +8,14 @@ import {
 
 import {
   State,
+  Actions,
 } from '../stores/root';
 
 import ShareText from '../api/ShareText';
+
+import {
+  fetchTexts,
+} from './texts';
 
 type UpdateHost = 'UPDATE_HOST';
 const UPDATE_HOST: UpdateHost = 'UPDATE_HOST';
@@ -106,6 +111,14 @@ export const fetchAuthEpic: Epic<AuthActions, State> = (action$, store) =>
           fetchAuthFailure()
         );
     });
+
+/**
+ * Auth Fulfillment epic
+ */
+export const authFulfilledEpic: Epic<Actions, State> = action$ =>
+  action$
+    .ofType(FETCH_AUTH_FULFILLED)
+    .map(fetchTexts);
 
 /**
  * Auth reducer
