@@ -25,6 +25,7 @@ import {
 
 import TextRow from './TextRow';
 import LoadingView from './LoadingView';
+import Messages from './Messages';
 
 interface TextsViewProps extends TextsState {
   path: string;
@@ -51,7 +52,11 @@ const TextsView = (props: TextsViewProps) => (
         </ListGroup>
       </Sidebar>
       <Pane>
-        <div class="padded-more">Main content pane</div>
+        {
+          props.texts.length > 0 ?
+          <Messages sender={props.texts[0].sender} texts={props.texts} /> :
+          <div />
+        }
       </Pane>
     </PaneGroup>
   </WindowContent>

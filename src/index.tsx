@@ -11,6 +11,8 @@ import {
 import 'photonkit/dist/css/photon.css';
 // Progress css
 import './styles/progress.css';
+// Messages css
+import './styles/messages.css';
 
 // Patch Rx operators
 import './utils/patch_operators';
