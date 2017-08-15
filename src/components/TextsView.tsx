@@ -35,15 +35,18 @@ import Messages from './Messages';
 interface TextsViewProps extends TextsState {
   path: string;
   thread: string;
-  showThread: (thread: number) => void;
+  showThread: (thread: string) => void;
 }
 
-const currentThread = (props: TextsViewProps) => {
-  try {
-    return parseInt(props.thread, 10) || 0;
-  } catch (err) {
-    return 0;
+const currentThread = (props: TextsViewProps): string => {
+  if (props.thread) {
+    return props.thread;
   }
+
+  const [ firstThread ] = props.filteredThreads;
+  const [ threadId ] = firstThread;
+
+  return threadId;
 }
 
 const renderThread = (props: TextsViewProps) => {
@@ -52,25 +55,23 @@ const renderThread = (props: TextsViewProps) => {
     filteredThreads,
   } = props;
 
-  if (
-    filteredThreads.length === 0 ||
-    thread > filteredThreads.length
-  ) {
+  const foundThread = filteredThreads.find(([ threadId ]) => threadId === thread);
+
+  if (foundThread) {
+    const [
+      ,
+      texts,
+    ] = foundThread;
+
+    return (
+      <Messages
+        address={texts[0].address}
+        texts={orderBy<ShareText.Text>(texts, text => text.date, 'asc')}
+      />
+    );
+  } else {
     return <div />;
   }
-
-  const [
-    ,
-    texts,
-  ] = filteredThreads[thread];
-
-  return (
-    <Messages
-      address={texts[0].address}
-      texts={orderBy<ShareText.Text>(texts, text => text.date, 'asc')}
-    />
-  );
-
 }
 
 const TextsView = (props: TextsViewProps) => (
@@ -83,13 +84,13 @@ const TextsView = (props: TextsViewProps) => (
           <ListGroupHeader>
             <Search />
           </ListGroupHeader>
-          {props.filteredThreads.map(([, texts], i) =>
+          {props.filteredThreads.map(([threadId, texts]) =>
           <TextRow
-            active={currentThread(props) === i}
+            active={currentThread(props) === threadId}
             avatar={getAvatar(texts[0].address)}
             address={texts[0].address}
             message={texts[0].message}
-            showThread={() => props.showThread(i)}
+            showThread={() => props.showThread(threadId)}
           />
           )}
         </ListGroup>

@@ -23,7 +23,7 @@ import TextsView from '../components/TextsView';
 const mapState = (state: State) => state.texts;
 
 const mapDispatch = (dispatch: Dispatch<State>) => bindActionCreators({
-  showThread: (thread: number) => navigate(`/texts/${thread}`),
+  showThread: (thread: string) => navigate(`/texts/${thread}`),
 }, dispatch);
 
 const Connected = connect(
