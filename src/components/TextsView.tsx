@@ -30,6 +30,7 @@ import Messages from './Messages';
 interface TextsViewProps extends TextsState {
   path: string;
   thread: string;
+  showThread: (thread: number) => void;
 }
 
 const currentThread = (props: TextsViewProps) => {
@@ -56,6 +57,7 @@ const TextsView = (props: TextsViewProps) => (
             avatar={getAvatar(sender)}
             sender={sender}
             message={texts[texts.length - 1].message}
+            showThread={() => props.showThread(i)}
           />
           )}
         </ListGroup>
