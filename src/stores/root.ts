@@ -19,6 +19,13 @@ import {
 } from './auth';
 
 import {
+  RouterActions,
+  RouterState,
+  router,
+  routerEpic,
+} from './router';
+
+import {
   TextsActions,
   TextsState,
   texts,
@@ -30,6 +37,7 @@ import {
  */
 export type Actions =
   AuthActions |
+  RouterActions |
   TextsActions;
 
 /**
@@ -37,6 +45,7 @@ export type Actions =
  */
 export interface State {
   auth: AuthState;
+  router: RouterState;
   texts: TextsState;
 };
 
@@ -46,6 +55,9 @@ export const getDefaultState = (): State => ({
     code: '',
     host: '',
   },
+  router: {
+    path: '/',
+  },
   texts: {
     loading: false,
     texts: [],
@@ -54,12 +66,14 @@ export const getDefaultState = (): State => ({
 });
 
 export const rootEpic = combineEpics<Actions, State>(
-  fetchAuthEpic,
   authFulfilledEpic,
+  fetchAuthEpic,
   fetchTextsEpic,
+  routerEpic,
 );
 
 export const rootReducer = combineReducers<State>({
   auth,
+  router,
   texts,
 });
