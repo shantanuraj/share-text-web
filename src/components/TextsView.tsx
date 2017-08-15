@@ -5,6 +5,9 @@
 import {
   h,
 } from 'preact';
+import {
+  orderBy,
+} from 'lodash-es';
 
 import {
   TextsState,
@@ -43,6 +46,29 @@ const currentThread = (props: TextsViewProps) => {
   }
 }
 
+const renderThread = (props: TextsViewProps) => {
+  const thread = currentThread(props);
+  const {
+    filteredThreads,
+  } = props;
+
+  if (thread > props.filteredThreads.length) {
+    return <div />;
+  }
+  const [
+    sender,
+    texts,
+  ] = filteredThreads[thread];
+
+  return (
+    <Messages
+      sender={sender}
+      texts={orderBy<ShareText.Text>(texts, text => text.date, 'asc')}
+    />
+  );
+
+}
+
 const TextsView = (props: TextsViewProps) => (
   props.loading ?
   <LoadingView /> :
@@ -58,21 +84,14 @@ const TextsView = (props: TextsViewProps) => (
             active={currentThread(props) === i}
             avatar={getAvatar(sender)}
             sender={sender}
-            message={texts[texts.length - 1].message}
+            message={texts[0].message}
             showThread={() => props.showThread(i)}
           />
           )}
         </ListGroup>
       </Sidebar>
       <Pane>
-        {
-          currentThread(props) < props.filteredThreads.length ?
-          <Messages
-            sender={props.filteredThreads[currentThread(props)][0]}
-            texts={props.filteredThreads[currentThread(props)][1]}
-          /> :
-          <div />
-        }
+        {renderThread(props)}
       </Pane>
     </PaneGroup>
   </WindowContent>

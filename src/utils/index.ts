@@ -32,8 +32,8 @@ export const toThreads = (texts: ShareText.Text[]): ShareText.TextThread[] => {
   const groupedTexts = groupBy(texts, text => text.sender);
   const pairedTexts  = toPairs<{}, ShareText.Text[]>(groupedTexts);
   const orderedPairs = orderBy<ShareText.TextThread>(pairedTexts, pair => {
-    const [ ,messages ] = pair;
-    return messages[0].date;
+    const [ ,texts ] = pair;
+    return texts[0].date;
   }, 'desc');
   return orderedPairs;
 }

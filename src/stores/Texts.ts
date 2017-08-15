@@ -110,7 +110,11 @@ export const fetchTextsEpic: Epic<TextsActions, State> = (action$, store) =>
  */
 export const searchTextsEpic: Epic<Actions, State> = action$ =>
   action$.ofType(SEARCH_TEXTS)
-    .map((action: SearchTextsAction) => `/texts?q=${encodeURIComponent(action.query)}`)
+    .map((action: SearchTextsAction) =>
+      action.query ?
+      `/texts?q=${encodeURIComponent(action.query)}` :
+      `/texts`
+    )
     .map(navigate);
 
 /**
