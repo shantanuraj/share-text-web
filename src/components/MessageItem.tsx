@@ -6,6 +6,10 @@ import {
   h,
 } from 'preact';
 
+import {
+  linkifyText,
+} from '../utils';
+
 interface MessageItemProps {
   type: 'system' | 'extern' | 'self';
   message: string;
@@ -14,9 +18,9 @@ interface MessageItemProps {
 
 const MessageItem = (props: MessageItemProps) => (
   <li data-type={props.type}>
-    <div class="message-content">
-      {props.message}
-    </div>
+    <div
+      dangerouslySetInnerHTML={{ __html: linkifyText(props.message) }}
+      class="message-content" />
     <div class="message-description">
       {props.description}
     </div>
